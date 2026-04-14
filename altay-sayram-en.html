@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>阿勒泰+赛里木湖</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .card {
+      background: transparent;
+      padding: 44px 0 52px;
+      margin: 40px 16px;
+      overflow: visible;
+      width: 520px;
+    }
+    .header {
+      text-align: center;
+      padding: 0 36px 32px;
+    }
+    .header .subtitle {
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #a098c0;
+      margin-bottom: 8px;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      font-style: italic;
+      color: #3d3260;
+      line-height: 1.3;
+    }
+    svg { display: block; overflow: visible; }
+    .footer {
+      text-align: center;
+      padding: 24px 0 0;
+      color: #b0a8cc;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .stop-hit { cursor: pointer; }
+    .stop-hit:hover .nm { opacity: 0.7; }
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: transparent; z-index: 100;
+      justify-content: center; align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: linear-gradient(160deg, #f5f0ff 0%, #eaf2ff 100%);
+      border-radius: 24px; width: 300px;
+      box-shadow: 0 24px 64px rgba(80,60,160,0.25);
+      overflow: hidden; animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn {
+      from { opacity:0; transform:scale(0.92) translateY(12px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+    .modal-body { padding: 20px 24px 24px; }
+    .modal-body h2 {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 20px; color: #3d2e6e; margin-bottom: 6px;
+    }
+    .modal-body p { font-size: 12px; color: #8880a8; letter-spacing: 0.06em; }
+    .modal-close {
+      position: absolute; top: 14px; right: 16px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(255,255,255,0.7); border: none;
+      cursor: pointer; font-size: 14px; color: #6650a4;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal-wrapper { position: relative; }
+  </style>
+</head>
+<body>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-wrapper">
+    <div class="modal">
+      <div class="modal-body">
+        <h2 id="modalTitle"></h2>
+        <p id="modalSub"></p>
+      </div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="header">
+    <p class="subtitle">Travel Route · 9 Days 8 Nights</p>
+    <h1>Altay · Sayram Lake<br>Winter Journey</h1>
+  </div>
+
+  <!--
+    ViewBox: 500 x 370
+    Nodes:
+    乌鲁木齐    390, 320   start/end, bottom-right
+    乌伦古湖    310, 215   right-center
+    布尔津      250, 192   center hub
+    禾木        310, 118   top-right
+    喀纳斯      245,  82   top-center  ★ HIGHLIGHT
+    白哈巴      145, 122   top-left
+    世界魔鬼城  122, 252   left-center
+    赛里木湖     32, 305   far-left
+
+    Route:
+    乌鲁木齐 → 乌伦古湖 → 布尔津
+    布尔津 → 禾木 → 喀纳斯 → 白哈巴 → 布尔津  (upper loop)
+    布尔津 → 世界魔鬼城 → 赛里木湖 → 乌鲁木齐  (lower return)
+  -->
+
+  <svg viewBox="0 0 500 370" width="500" height="370" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#b8a8e8"/>
+        <stop offset="50%"  stop-color="#90b8e8"/>
+        <stop offset="100%" stop-color="#b8c8f0"/>
+      </linearGradient>
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="sh" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#b8a8e8" flood-opacity="0.3"/>
+      </filter>
+    </defs>
+
+    <!-- ══ MAIN ENTRY: 乌鲁木齐(390,320) → 乌伦古湖(310,215) → 布尔津(250,192) ══ -->
+    <path d="M 390,320 C 378,285 362,238 350,215"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+    <path d="M 350,215 C 318,205 278,196 250,192"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+
+    <!-- ══ UPPER LOOP: 布尔津 → 禾木 → 喀纳斯 → 白哈巴 → 布尔津 ══ -->
+    <!-- 布尔津(250,192) → 禾木(310,118) -->
+    <path d="M 250,192 C 262,168 292,136 310,118"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+    <!-- 禾木(310,118) → 喀纳斯(245,82) -->
+    <path d="M 310,118 C 292,102 268,88 245,82"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+    <!-- 喀纳斯(245,82) → 白哈巴(145,122) -->
+    <path d="M 245,82 C 215,88 172,108 145,122"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+    <!-- 白哈巴(145,122) → 布尔津(250,192) -->
+    <path d="M 145,122 C 168,140 222,172 250,192"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+
+    <!-- ══ LOWER RETURN: 布尔津 → 世界魔鬼城 → 赛里木湖 → 乌鲁木齐 ══ -->
+    <!-- 布尔津(250,192) → 世界魔鬼城(122,252) -->
+    <path d="M 250,192 C 228,208 202,232 186,252"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+    <!-- 世界魔鬼城(122,252) → 赛里木湖(32,305) -->
+    <path d="M 186,252 C 140,268 88,290 32,305"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+    <!-- 赛里木湖(32,305) → 乌鲁木齐(390,320) -->
+    <path d="M 32,305 C 120,310 280,315 390,320"
+      fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round"
+      stroke-dasharray="6,4" opacity="0.9"/>
+
+    <!-- ══ NODES ══ -->
+
+    <!-- 乌鲁木齐 (start/end) -->
+    <g class="stop-hit" onclick="openModal('Ürümqi','Gateway City · Start & End')">
+      <circle cx="390" cy="320" r="12" fill="rgba(160,140,230,0.10)" stroke="#c0b0e8" stroke-width="1" stroke-dasharray="3,3"/>
+      <circle class="nm" cx="390" cy="320" r="7" fill="#d8d0f5" stroke="#b8a8e8" stroke-width="1.5" filter="url(#sh)"/>
+      <circle cx="390" cy="320" r="3" fill="#9888d8"/>
+      <text x="405" y="315" font-family="DM Sans" font-size="12" font-weight="500" fill="#4a3f7a">Ürümqi</text>
+      <text x="405" y="329" font-family="DM Sans" font-size="8.5" fill="#9888c8" letter-spacing="0.05em">Start / End</text>
+    </g>
+
+    <!-- 乌伦古湖 -->
+    <g class="stop-hit" onclick="openModal('Ulungur Lake','Azure in the Desert')">
+      <circle class="nm" cx="350" cy="215" r="6.5" fill="#dce8f8" stroke="#a8c4e8" stroke-width="1.4" filter="url(#sh)"/>
+      <circle cx="350" cy="215" r="2.5" fill="#7aaad8"/>
+      <text x="362" y="219" font-family="DM Sans" font-size="11.5" font-weight="500" fill="#384870">Ulungur Lake</text>
+    </g>
+
+    <!-- 布尔津 (hub) -->
+    <g class="stop-hit" onclick="openModal('Burqin','Altay Hub · River Town')">
+      <circle cx="250" cy="192" r="10" fill="rgba(160,140,230,0.08)" stroke="#c0b0e8" stroke-width="1"/>
+      <circle class="nm" cx="250" cy="192" r="6.5" fill="#eae4f8" stroke="#c0b0e8" stroke-width="1.4" filter="url(#sh)"/>
+      <circle cx="250" cy="192" r="2.5" fill="#9878d0"/>
+      <text x="238" y="208" font-family="DM Sans" font-size="12" font-weight="500" fill="#4a3f7a" text-anchor="middle">Burqin</text>
+    </g>
+
+    <!-- 禾木 -->
+    <g class="stop-hit" onclick="openModal('Hemu','Snow Fantasy · Winter Hike')">
+      <circle class="nm" cx="310" cy="118" r="6.5" fill="#dce8f8" stroke="#a8c4e8" stroke-width="1.4" filter="url(#sh)"/>
+      <circle cx="310" cy="118" r="2.5" fill="#7aaad8"/>
+      <text x="322" y="122" font-family="DM Sans" font-size="12" font-weight="500" fill="#384870">Hemu</text>
+    </g>
+
+    <!-- 喀纳斯 HIGHLIGHT -->
+    <g class="stop-hit" onclick="openModal('Kanas','Snow Kingdom · Immersive Wander')">
+      <circle cx="245" cy="82" r="16" fill="rgba(180,155,240,0.12)" filter="url(#glow)"/>
+      <circle cx="245" cy="82" r="11" fill="rgba(160,135,230,0.14)"/>
+      <circle class="nm" cx="245" cy="82" r="8" fill="#c8b4f0" stroke="#9878d8" stroke-width="2" filter="url(#sh)"/>
+      <circle cx="245" cy="82" r="3.5" fill="#6c58c0"/>
+      <text x="245" y="62" font-family="Playfair Display" font-style="italic" font-size="13" fill="#3d2e6e" text-anchor="middle">Kanas</text>
+      <text x="245" y="74" font-family="DM Sans" font-size="7.5" fill="#9878d8" text-anchor="middle" letter-spacing="0.1em">✦ HIGHLIGHT</text>
+    </g>
+
+    <!-- 白哈巴 -->
+    <g class="stop-hit" onclick="openModal('Baihaba','Fairytale Village · Border Town')">
+      <circle class="nm" cx="145" cy="122" r="6.5" fill="#eae4f8" stroke="#c0b0e8" stroke-width="1.4" filter="url(#sh)"/>
+      <circle cx="145" cy="122" r="2.5" fill="#9878d0"/>
+      <text x="133" y="116" font-family="DM Sans" font-size="12" font-weight="500" fill="#4a3f7a" text-anchor="end">Baihaba</text>
+    </g>
+
+    <!-- 世界魔鬼城 -->
+    <g class="stop-hit" onclick="openModal('Devil City','Alien Landscape · Wind Erosion')">
+      <circle class="nm" cx="186" cy="252" r="6.5" fill="#dce8f8" stroke="#a8c4e8" stroke-width="1.4" filter="url(#sh)"/>
+      <circle cx="186" cy="252" r="2.5" fill="#7aaad8"/>
+      <text x="174" y="245" font-family="DM Sans" font-size="11.5" font-weight="500" fill="#384870" text-anchor="end">Devil</text>
+      <text x="174" y="260" font-family="DM Sans" font-size="11.5" font-weight="500" fill="#384870" text-anchor="end">City</text>
+    </g>
+
+    <!-- 赛里木湖 -->
+    <g class="stop-hit" onclick="openModal('Sayram Lake','More Than Blue · Alpine Lake')">
+      <circle class="nm" cx="32" cy="305" r="6.5" fill="#eae4f8" stroke="#c0b0e8" stroke-width="1.4" filter="url(#sh)"/>
+      <circle cx="32" cy="305" r="2.5" fill="#9878d0"/>
+      <text x="20" y="299" font-family="DM Sans" font-size="11.5" font-weight="500" fill="#4a3f7a" text-anchor="end">Sayram Lake</text>
+    </g>
+
+  </svg>
+
+  <div class="footer">
+    Altay · Sayram · Xinjiang · 9D8N
+  </div>
+</div>
+
+<script>
+  function openModal(title, sub) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalSub').textContent = sub;
+    document.getElementById('modalOverlay').classList.add('active');
+  }
+  function closeModal(e) {
+    if (!e || e.target === document.getElementById('modalOverlay') || e.currentTarget.classList.contains('modal-close')) {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
